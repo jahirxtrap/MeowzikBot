@@ -10,7 +10,6 @@ module.exports = {
     const count = await registerAllGuilds(client);
     console.log(`📥 Slash commands registered in ${count} server(s).`);
 
-    // Re-render saved panels so any layout changes show up after a restart.
     for (const [guildId] of client.guilds.cache) {
       await panel.refreshGuild(client, guildId).catch(() => {
       });

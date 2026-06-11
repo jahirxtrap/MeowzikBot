@@ -14,7 +14,6 @@ const {replyTemp} = require('../lib/util');
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction) {
-    // Slash commands
     if (interaction.isChatInputCommand()) {
       const command = interaction.client.commands.get(interaction.commandName);
       if (!command) return;
@@ -34,7 +33,6 @@ module.exports = {
       return;
     }
 
-    // "Add song" modal submit
     if (interaction.isModalSubmit() && interaction.customId === 'music_add_modal') {
       await handleAddModal(interaction);
       return;
