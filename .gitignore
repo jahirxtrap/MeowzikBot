@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+
+# Runtime data & logs
+data/*.json
+*.log
+meowzik.log
+
+# IDEs / editors
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# npm
+npm-debug.log*
+.npm/
