@@ -3,6 +3,16 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {Client, Collection, GatewayIntentBits} = require('discord.js');
 
+const stamp = () => {
+  const d = new Date();
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+};
+const _log = console.log.bind(console);
+const _err = console.error.bind(console);
+console.log = (...a) => _log(`[${stamp()}]`, ...a);
+console.error = (...a) => _err(`[${stamp()}]`, ...a);
+
 const {DISCORD_TOKEN} = process.env;
 if (!DISCORD_TOKEN) {
   console.error('Missing DISCORD_TOKEN in .env');
