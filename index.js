@@ -42,6 +42,40 @@ for (const file of fs.readdirSync(eventsDir).filter((f) => f.endsWith('.js'))) {
   else client.on(event.name, (...args) => event.execute(...args));
 }
 
-process.on('unhandledRejection', (err) => console.error('Unhandled rejection:', err));
+client.on('error', (err) => console.error('Client error:', err?.message || err));
+client.on('shardError', (err) => console.error('Shard error:', err?.message || err));
+client.on('shardDisconnect', (ev, id) => console.warn(`Shard ${id} disconnected (${ev?.code ?? '?'}); reconnecting…`));
+client.on('shardReconnecting', (id) => console.warn(`Shard ${id} reconnecting…`));
+client.on('shardResume', (id) => console.log(`Shard ${id} resumed.`));
 
-client.login(DISCORD_TOKEN);
+const NET_ERR_CODES = new Set([
+  'UND_ERR_CONNECT_TIMEOUT', 'ECONNRESET', 'ETIMEDOUT', 'ECONNREFUSED',
+  'EAI_AGAIN', 'ENOTFOUND', 'EPIPE', 'ENETUNREACH', 'EHOSTUNREACH', 'EHOSTDOWN',
+]);
+const isTransientNetError = (err) =>
+  NET_ERR_CODES.has(err?.code) ||
+  /handshake has timed out|opening handshake|timed out|socket hang up|network|ECONNRESET|WebSocket was closed/i
+    .test(String(err?.message || ''));
+
+process.on('unhandledRejection', (err) => {
+  if (isTransientNetError(err)) return console.error('Transient network error (will retry):', err?.message || err);
+  console.error('Unhandled rejection:', err);
+});
+
+process.on('uncaughtException', (err) => {
+  if (isTransientNetError(err)) return console.error('Transient network error (ignored, auto-reconnect):', err?.message || err);
+  console.error('Fatal uncaught exception, exiting for restart:', err);
+  process.exit(1);
+});
+
+(async function start() {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await client.login(DISCORD_TOKEN);
+      return;
+    } catch (err) {
+      console.error(`Login failed (${err?.code || err?.message}); retrying in 15s [attempt ${attempt}]`);
+      await new Promise((r) => setTimeout(r, 15000));
+    }
+  }
+})();
