@@ -20,11 +20,11 @@ function textContainer(text) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('play')
-    .setDescription('Play a song (YouTube search/link or SoundCloud link)')
+    .setDescription('Play a song (YouTube search/link, SoundCloud, or Suno link)')
     .addStringOption((o) =>
       o
         .setName('query')
-        .setDescription('Song name, YouTube link, or SoundCloud link')
+        .setDescription('Song name, YouTube link, SoundCloud link, or Suno link')
         .setRequired(true),
     ),
 

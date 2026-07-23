@@ -15,8 +15,9 @@ commands or by typing in a dedicated music channel that has a full control panel
 - **Autoplay** (♾️): when the queue runs out it keeps playing songs similar to
   what was queued (YouTube radio mixes). Remembered per server.
 - **Favorites** ⭐ saved per server.
-- **Sources:** YouTube links & search, **YouTube playlists**, and **Spotify track
-  links** (title/artist are extracted and searched on YouTube).
+- **Sources:** YouTube links & search, **YouTube playlists**, **SoundCloud tracks
+  & sets**, **Spotify track links** (title/artist are extracted and searched on
+  YouTube), and **Suno song links**.
 - Commands **auto-register** in every server the bot is in (and any new one it
   joins) — no manual deploy step.
 
