@@ -49,7 +49,12 @@ commands or by typing in a dedicated music channel that has a full control panel
    ```bash
    npm start          # production
    npm run dev        # development (auto-reload on file changes)
+   npm run detach     # background; keeps running after the terminal closes
+   npm run stop       # stop a bot started with detach
    ```
+
+   `detach` writes its pid to `.detached.pid` and its output to `meowzik.log`;
+   starting a second one while the first is alive is refused.
 
 ## Invite link
 
@@ -68,3 +73,10 @@ https://discord.com/oauth2/authorize?client_id=CLIENT_ID&permissions=2150722576&
   **`@snazzah/davey`** dependency (both in `package.json`). Without them the voice
   gateway rejects the connection with close code **4017** and no audio plays — do
   not remove `@snazzah/davey`.
+- **YouTube bot checks:** datacenter IPs (any VPS) are answered with *"Sign in to
+  confirm you're not a bot"*. Point `YTDLP_COOKIES` at a Netscape-format
+  `cookies.txt` exported from a **throwaway** YouTube account and the bot retries
+  with it the moment YouTube asks — a desktop run on a residential IP never
+  reaches that path, so cookies stay unused. `YTDLP_ARGS` appends extra flags to
+  every yt-dlp call (proxies, extractor args), and `YTDLP_PATH` points at the
+  binary when it isn't on PATH.

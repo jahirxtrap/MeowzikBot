@@ -2,6 +2,9 @@ require('dotenv').config({quiet: true});
 const fs = require('node:fs');
 const path = require('node:path');
 const {Client, Collection, GatewayIntentBits} = require('discord.js');
+const {handleCli} = require('./lib/daemon');
+
+if (handleCli(process.argv.slice(2))) return;
 
 const stamp = () => {
   const d = new Date();
