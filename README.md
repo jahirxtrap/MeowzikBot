@@ -80,3 +80,18 @@ https://discord.com/oauth2/authorize?client_id=CLIENT_ID&permissions=2150722576&
   reaches that path, so cookies stay unused. `YTDLP_ARGS` appends extra flags to
   every yt-dlp call (proxies, extractor args), and `YTDLP_PATH` points at the
   binary when it isn't on PATH.
+- **Never point yt-dlp at `YTDLP_COOKIES` by hand.** yt-dlp rewrites the cookie file
+  it is given with whatever the server answered, and a run that hits the bot check
+  comes back without the login cookies — a couple of those and the session is gone.
+  The bot hands yt-dlp a throwaway copy and writes it back only when it still holds
+  a session, so rotation survives and a stripped answer is discarded. From a shell,
+  copy the file first or go through `npm run cookies`.
+- **Installing cookies:** `npm run cookies <exported-file>` takes either a Netscape
+  `cookies.txt` or the JSON a browser extension exports. It refuses an export made
+  without a session, refuses expired ones, resolves a login-only video to prove the
+  account still works, and only then writes `YTDLP_COOKIES` with mode 600. Run with
+  no argument it audits the cookies already in place.
+- **PO tokens:** on this VPS a [bgutil provider](https://github.com/Brainicism/bgutil-ytdlp-pot-provider)
+  runs as `bgutil-pot.service` on `127.0.0.1:4416`, with its yt-dlp plugin in
+  `~/.config/yt-dlp/plugins/`. It makes ordinary videos work from a flagged IP
+  without any cookies; videos YouTube gates behind a login still need them.

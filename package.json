@@ -8,7 +8,8 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "detach": "node index.js --detach",
-    "stop": "node index.js --stop"
+    "stop": "node index.js --stop",
+    "cookies": "node scripts/install-cookies.js"
   },
   "license": "MIT",
   "dependencies": {
