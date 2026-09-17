@@ -17,7 +17,10 @@ commands or by typing in a dedicated music channel that has a full control panel
 - **Favorites** ⭐ saved per server.
 - **Sources:** YouTube links & search, **YouTube playlists**, **SoundCloud tracks
   & sets**, **Spotify track links** (title/artist are extracted and searched on
-  YouTube), and **Suno song links**.
+  the selected source), and **Suno song links**.
+- **Search source** (`SEARCH_SOURCE`): `youtube` (default) or `soundcloud` decides
+  where a typed song name is looked up, autoplay included. Links always go to the
+  site they point at.
 - Commands **auto-register** in every server the bot is in (and any new one it
   joins) — no manual deploy step.
 
@@ -91,6 +94,11 @@ https://discord.com/oauth2/authorize?client_id=CLIENT_ID&permissions=2150722576&
   without a session, refuses expired ones, resolves a login-only video to prove the
   account still works, and only then writes `YTDLP_COOKIES` with mode 600. Run with
   no argument it audits the cookies already in place.
+- **SoundCloud as the search source:** set `SEARCH_SOURCE=soundcloud` and no login is
+  needed at all, which is the way out when YouTube keeps revoking the account. It asks
+  for five results instead of one and skips the DRM-protected ones (Go+ tracks are
+  common on official uploads), so what plays is often a re-upload or a remix rather
+  than the official master. Autoplay follows the track's SoundCloud recommendations.
 - **PO tokens:** on this VPS a [bgutil provider](https://github.com/Brainicism/bgutil-ytdlp-pot-provider)
   runs as `bgutil-pot.service` on `127.0.0.1:4416`, with its yt-dlp plugin in
   `~/.config/yt-dlp/plugins/`. It makes ordinary videos work from a flagged IP
