@@ -20,7 +20,10 @@ commands or by typing in a dedicated music channel that has a full control panel
   the selected source), and **Suno song links**.
 - **Search source** (`SEARCH_SOURCE`): `youtube` (default) or `soundcloud` decides
   where a typed song name is looked up, autoplay included. Links always go to the
-  site they point at.
+  site they point at: the link is picked out of the message even with share text
+  around it or wrapped in `<...>`, SoundCloud short links (`on.soundcloud.com`) are
+  expanded so a shared set still loads as a playlist, and autoplay after a SoundCloud
+  track stays on SoundCloud.
 - Commands **auto-register** in every server the bot is in (and any new one it
   joins) — no manual deploy step.
 
