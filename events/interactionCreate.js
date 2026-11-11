@@ -8,6 +8,7 @@ const {
 } = require('discord.js');
 const players = require('../lib/players');
 const panel = require('../lib/panel');
+const store = require('../lib/store');
 const {addToQueue, NotInVoiceError} = require('../lib/playback');
 const {replyTemp} = require('../lib/util');
 
@@ -74,14 +75,20 @@ module.exports = {
     if (interaction.isStringSelectMenu() && interaction.customId === 'music_fav') {
       const value = interaction.values[0] || '';
       const id = value.slice(value.indexOf(':') + 1);
+      const favorite = store.getFavorites(interaction.guildId).find((f) => f.id === id);
       await interaction.deferUpdate().catch(() => {
       });
+      if (!favorite) {
+        await panel.refreshGuild(interaction.client, interaction.guildId).catch(() => {
+        });
+        return;
+      }
       try {
         await addToQueue({
           guild: interaction.guild,
           client: interaction.client,
           member: interaction.member,
-          query: `https://www.youtube.com/watch?v=${id}`,
+          query: favorite.url,
         });
       } catch (err) {
         const msg =

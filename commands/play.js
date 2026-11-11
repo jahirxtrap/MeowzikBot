@@ -7,7 +7,7 @@ const {
   ThumbnailBuilder,
 } = require('discord.js');
 const {addToQueue, NotInVoiceError} = require('../lib/playback');
-const {formatDuration} = require('../lib/util');
+const {formatDuration, linkedTitle} = require('../lib/util');
 
 const COLOR = 0x1e1e1e;
 
@@ -54,7 +54,7 @@ module.exports = {
       const {track, playingNow} = result;
       const text =
         `### ${playingNow ? '🎶 Now Playing' : '➕ Added to Queue'}\n` +
-        `**[${track.title}](${track.url})**\n` +
+        `**${linkedTitle(track.title, track.url)}**\n` +
         `\`${formatDuration(track.duration)}\` · Requested by **${track.requestedBy}**`;
 
       const container = new ContainerBuilder().setAccentColor(COLOR);

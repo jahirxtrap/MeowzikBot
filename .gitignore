@@ -10,6 +10,7 @@ cookies-import.*
 
 # Runtime data & logs
 data/*.json
+library/
 *.log
 meowzik.log
 .detached.pid
